@@ -16,10 +16,10 @@
         <!-- Sidebar -->
         <aside
             :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
-            class="fixed inset-y-0 left-0 z-50 w-64 bg-gradient-to-b from-green-800 to-green-900 text-white transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0"
+            class="fixed inset-y-0 left-0 z-50 w-64 bg-gradient-to-b from-green-800 to-green-900 text-white transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 flex flex-col"
         >
             <!-- Sidebar Header -->
-            <div class="flex items-center justify-between h-16 px-6 bg-green-900 bg-opacity-50">
+            <div class="flex items-center justify-between h-16 px-6 bg-green-900 bg-opacity-50 flex-shrink-0">
                 <div class="flex items-center">
                     <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
@@ -34,14 +34,14 @@
             </div>
 
             <!-- User Info -->
-            <div class="px-6 py-4 border-b border-green-700">
+            <div class="px-6 py-4 border-b border-green-700 flex-shrink-0">
                 <p class="text-sm text-green-200">Halo,</p>
                 <p class="font-semibold text-lg">{{ Auth::user()->name }}</p>
                 <p class="text-xs text-green-300 mt-1">Administrator</p>
             </div>
 
-            <!-- Navigation -->
-            <nav class="px-4 py-6 space-y-2">
+            <!-- Navigation (Scrollable) -->
+            <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
                 <a href="{{ route('admin.dashboard') }}"
                    class="flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('admin.dashboard') ? 'bg-green-700 bg-opacity-50' : 'hover:bg-green-700 hover:bg-opacity-30' }} transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -148,8 +148,8 @@
                 </a>
             </nav>
 
-            <!-- Logout Button -->
-            <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-green-700">
+            <!-- Logout Button (Fixed at bottom) -->
+            <div class="p-4 border-t border-green-700 flex-shrink-0">
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="flex items-center w-full px-4 py-3 rounded-lg hover:bg-red-600 hover:bg-opacity-30 transition-colors">

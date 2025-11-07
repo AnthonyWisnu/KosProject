@@ -12,14 +12,19 @@ class KostProfileSeeder extends Seeder
      */
     public function run(): void
     {
-        KostProfile::create([
-            'name' => 'Kost Sejahtera',
-            'address' => 'Jl. Sudirman No. 123, Jakarta Selatan, DKI Jakarta 12190',
-            'phone' => '021-1234567',
-            'whatsapp' => '081234567890',
-            'email' => 'info@kostsejahtera.com',
-            'description' => 'Kost Sejahtera adalah rumah kost yang nyaman, aman, dan strategis. Berlokasi di pusat kota dengan akses mudah ke berbagai fasilitas umum. Kami menyediakan kamar dengan berbagai tipe sesuai kebutuhan Anda.',
-        ]);
+        // Use firstOrCreate to avoid duplicate entries
+        // Since KostProfile is singleton (only 1 record), we check by ID
+        KostProfile::firstOrCreate(
+            ['id' => 1],
+            [
+                'name' => 'Kost Sejahtera',
+                'address' => 'Jl. Sudirman No. 123, Jakarta Selatan, DKI Jakarta 12190',
+                'phone' => '021-1234567',
+                'whatsapp' => '081234567890',
+                'email' => 'info@kostsejahtera.com',
+                'description' => 'Kost Sejahtera adalah rumah kost yang nyaman, aman, dan strategis. Berlokasi di pusat kota dengan akses mudah ke berbagai fasilitas umum. Kami menyediakan kamar dengan berbagai tipe sesuai kebutuhan Anda.',
+            ]
+        );
 
         $this->command->info('Kost Profile seeded successfully!');
     }

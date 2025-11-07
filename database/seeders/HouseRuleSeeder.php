@@ -56,7 +56,13 @@ class HouseRuleSeeder extends Seeder
         ];
 
         foreach ($rules as $rule) {
-            HouseRule::create($rule);
+            HouseRule::updateOrCreate(
+                ['title' => $rule['title']],
+                [
+                    'description' => $rule['description'],
+                    'order' => $rule['order'],
+                ]
+            );
         }
 
         $this->command->info('House Rules seeded successfully!');

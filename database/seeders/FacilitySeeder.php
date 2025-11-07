@@ -28,7 +28,10 @@ class FacilitySeeder extends Seeder
         ];
 
         foreach ($facilities as $facility) {
-            Facility::create($facility);
+            Facility::updateOrCreate(
+                ['name' => $facility['name']],
+                ['icon' => $facility['icon']]
+            );
         }
 
         $this->command->info('Facilities seeded successfully!');

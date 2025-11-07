@@ -38,9 +38,13 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middl
 Route::middleware(['auth', 'role:pemilik'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
-    // Route lain untuk admin akan ditambahkan di phase berikutnya
-    // Route::resource('rooms', RoomController::class);
-    // Route::resource('facilities', FacilityController::class);
+    // Data Master
+    Route::resource('rooms', \App\Http\Controllers\Admin\RoomController::class);
+    Route::resource('facilities', \App\Http\Controllers\Admin\FacilityController::class);
+
+    // Routes lain akan ditambahkan di phase berikutnya
+    // Route::resource('tenants', TenantController::class);
+    // Route::resource('payments', PaymentController::class);
     // dll
 });
 

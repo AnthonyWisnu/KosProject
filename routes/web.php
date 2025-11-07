@@ -77,8 +77,13 @@ Route::middleware(['auth', 'role:pemilik'])->prefix('admin')->name('admin.')->gr
     // Ratings
     Route::resource('ratings', \App\Http\Controllers\Admin\RatingController::class)->only(['index', 'show', 'destroy']);
 
-    // Routes lain akan ditambahkan di phase berikutnya
-    // Route untuk settings, dll
+    // Settings
+    Route::get('profile', [\App\Http\Controllers\Admin\ProfileKostController::class, 'edit'])->name('profile.edit');
+    Route::put('profile', [\App\Http\Controllers\Admin\ProfileKostController::class, 'update'])->name('profile.update');
+
+    // User Management
+    Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
+    Route::post('users/{user}/reset-password', [\App\Http\Controllers\Admin\UserController::class, 'resetPassword'])->name('users.reset-password');
 });
 
 /*

@@ -74,14 +74,14 @@
                     <p class="px-4 text-xs font-semibold text-green-300 uppercase tracking-wider">Manajemen</p>
                 </div>
 
-                <a href="#" class="flex items-center px-4 py-3 rounded-lg hover:bg-green-700 hover:bg-opacity-30 transition-colors">
+                <a href="{{ route('admin.tenants.index') }}" class="flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('admin.tenants.*') ? 'bg-green-700 bg-opacity-50' : 'hover:bg-green-700 hover:bg-opacity-30' }} transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
                     </svg>
                     <span class="ml-3">Penghuni</span>
                 </a>
 
-                <a href="#" class="flex items-center px-4 py-3 rounded-lg hover:bg-green-700 hover:bg-opacity-30 transition-colors">
+                <a href="{{ route('admin.payments.index') }}" class="flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('admin.payments.*') ? 'bg-green-700 bg-opacity-50' : 'hover:bg-green-700 hover:bg-opacity-30' }} transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
                     </svg>

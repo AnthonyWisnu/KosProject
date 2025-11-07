@@ -42,9 +42,15 @@ Route::middleware(['auth', 'role:pemilik'])->prefix('admin')->name('admin.')->gr
     Route::resource('rooms', \App\Http\Controllers\Admin\RoomController::class);
     Route::resource('facilities', \App\Http\Controllers\Admin\FacilityController::class);
 
+    // Manajemen
+    Route::resource('tenants', \App\Http\Controllers\Admin\TenantController::class);
+    Route::resource('payments', \App\Http\Controllers\Admin\PaymentController::class)->only(['index', 'show']);
+    Route::post('payments/{payment}/verify', [\App\Http\Controllers\Admin\PaymentController::class, 'verify'])->name('payments.verify');
+    Route::get('payments/export', [\App\Http\Controllers\Admin\PaymentController::class, 'export'])->name('payments.export');
+
     // Routes lain akan ditambahkan di phase berikutnya
-    // Route::resource('tenants', TenantController::class);
-    // Route::resource('payments', PaymentController::class);
+    // Route::resource('bookings', BookingController::class);
+    // Route::resource('complaints', ComplaintController::class);
     // dll
 });
 

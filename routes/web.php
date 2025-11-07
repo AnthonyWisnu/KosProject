@@ -98,8 +98,16 @@ Route::middleware(['auth', 'role:penyewa'])->prefix('tenant')->name('tenant.')->
     // Ratings
     Route::resource('ratings', \App\Http\Controllers\Tenant\RatingController::class);
 
-    // Route lain untuk tenant akan ditambahkan di phase berikutnya
-    // Route::get('/payments', [TenantPaymentController::class, 'index'])->name('payments');
-    // Route::post('/payments', [TenantPaymentController::class, 'store'])->name('payments.store');
-    // dll
+    // Payments
+    Route::get('payments', [\App\Http\Controllers\Tenant\PaymentController::class, 'index'])->name('payments.index');
+    Route::get('payments/{payment}', [\App\Http\Controllers\Tenant\PaymentController::class, 'show'])->name('payments.show');
+    Route::post('payments/{payment}/upload-proof', [\App\Http\Controllers\Tenant\PaymentController::class, 'uploadProof'])->name('payments.upload-proof');
+
+    // Complaints
+    Route::resource('complaints', \App\Http\Controllers\Tenant\ComplaintController::class)->only(['index', 'create', 'store', 'show']);
+
+    // Profile
+    Route::get('profile', [\App\Http\Controllers\Tenant\ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('profile', [\App\Http\Controllers\Tenant\ProfileController::class, 'update'])->name('profile.update');
+    Route::put('profile/password', [\App\Http\Controllers\Tenant\ProfileController::class, 'updatePassword'])->name('profile.update-password');
 });

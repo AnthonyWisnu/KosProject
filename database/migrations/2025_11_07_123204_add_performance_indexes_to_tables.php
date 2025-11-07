@@ -7,71 +7,83 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
+     * Tables and their index definitions.
+     *
+     * @var array<string, array<int, array<int, string>>>
+     */
+    private array $indexDefinitions = [
+        'rooms' => [
+            ['status'],
+            ['room_type'],
+            ['price'],
+            ['status', 'room_type'],
+        ],
+        'tenants' => [
+            ['room_id'],
+            ['user_id'],
+            ['status'],
+            ['status', 'end_date'],
+        ],
+        'payments' => [
+            ['tenant_id'],
+            ['payment_status'],
+            ['payment_date'],
+            ['due_date'],
+            ['payment_status', 'due_date'],
+        ],
+        'bookings' => [
+            ['room_id'],
+            ['status'],
+            ['check_in_date'],
+            ['check_out_date'],
+            ['status', 'check_in_date'],
+        ],
+        'complaints' => [
+            ['tenant_id'],
+            ['room_id'],
+            ['status'],
+            ['priority'],
+            ['status', 'priority'],
+        ],
+        'ratings' => [
+            ['room_id'],
+            ['user_id'],
+            ['rating'],
+            ['room_id', 'user_id'],
+        ],
+        'room_images' => [
+            ['room_id'],
+        ],
+        'room_facilities' => [
+            ['room_id'],
+            ['facility_id'],
+        ],
+    ];
+
+    /**
      * Run the migrations.
      */
     public function up(): void
     {
-        // Add indexes to rooms table
-        Schema::table('rooms', function (Blueprint $table) {
-            $table->index('status');
-            $table->index('room_type');
-            $table->index('price');
-            $table->index(['status', 'room_type']); // Composite index for filtering
-        });
+        foreach ($this->indexDefinitions as $tableName => $indexes) {
+            if (! Schema::hasTable($tableName)) {
+                continue;
+            }
 
-        // Add indexes to tenants table
-        Schema::table('tenants', function (Blueprint $table) {
-            $table->index('room_id');
-            $table->index('user_id');
-            $table->index('status');
-            $table->index(['status', 'check_out_date']); // For active tenant queries
-        });
+            Schema::table($tableName, function (Blueprint $table) use ($tableName, $indexes) {
+                foreach ($indexes as $columns) {
+                    if (! $this->columnsExist($tableName, $columns)) {
+                        continue;
+                    }
 
-        // Add indexes to payments table
-        Schema::table('payments', function (Blueprint $table) {
-            $table->index('tenant_id');
-            $table->index('payment_status');
-            $table->index('payment_date');
-            $table->index('due_date');
-            $table->index(['payment_status', 'due_date']); // For overdue queries
-        });
+                    $indexName = $this->makeIndexName($tableName, $columns);
 
-        // Add indexes to bookings table
-        Schema::table('bookings', function (Blueprint $table) {
-            $table->index('room_id');
-            $table->index('status');
-            $table->index('check_in_date');
-            $table->index('check_out_date');
-            $table->index(['status', 'check_in_date']); // For pending bookings
-        });
-
-        // Add indexes to complaints table
-        Schema::table('complaints', function (Blueprint $table) {
-            $table->index('tenant_id');
-            $table->index('room_id');
-            $table->index('status');
-            $table->index('priority');
-            $table->index(['status', 'priority']); // For filtering urgent complaints
-        });
-
-        // Add indexes to ratings table
-        Schema::table('ratings', function (Blueprint $table) {
-            $table->index('room_id');
-            $table->index('user_id');
-            $table->index('rating');
-            $table->index(['room_id', 'user_id']); // For checking duplicates
-        });
-
-        // Add indexes to room_images table
-        Schema::table('room_images', function (Blueprint $table) {
-            $table->index('room_id');
-        });
-
-        // Add indexes to room_facility table (pivot)
-        Schema::table('room_facility', function (Blueprint $table) {
-            $table->index('room_id');
-            $table->index('facility_id');
-        });
+                    if (! $this->indexExists($tableName, $indexName)) {
+                        $table->index($columns, $indexName);
+                    }
+                }
+            });
+        }
     }
 
     /**
@@ -79,66 +91,62 @@ return new class extends Migration
      */
     public function down(): void
     {
-        // Drop indexes from rooms table
-        Schema::table('rooms', function (Blueprint $table) {
-            $table->dropIndex(['status']);
-            $table->dropIndex(['room_type']);
-            $table->dropIndex(['price']);
-            $table->dropIndex(['status', 'room_type']);
-        });
+        foreach ($this->indexDefinitions as $tableName => $indexes) {
+            if (! Schema::hasTable($tableName)) {
+                continue;
+            }
 
-        // Drop indexes from tenants table
-        Schema::table('tenants', function (Blueprint $table) {
-            $table->dropIndex(['room_id']);
-            $table->dropIndex(['user_id']);
-            $table->dropIndex(['status']);
-            $table->dropIndex(['status', 'check_out_date']);
-        });
+            Schema::table($tableName, function (Blueprint $table) use ($tableName, $indexes) {
+                foreach ($indexes as $columns) {
+                    $indexName = $this->makeIndexName($tableName, $columns);
 
-        // Drop indexes from payments table
-        Schema::table('payments', function (Blueprint $table) {
-            $table->dropIndex(['tenant_id']);
-            $table->dropIndex(['payment_status']);
-            $table->dropIndex(['payment_date']);
-            $table->dropIndex(['due_date']);
-            $table->dropIndex(['payment_status', 'due_date']);
-        });
+                    if ($this->indexExists($tableName, $indexName)) {
+                        $table->dropIndex($indexName);
+                    }
+                }
+            });
+        }
+    }
 
-        // Drop indexes from bookings table
-        Schema::table('bookings', function (Blueprint $table) {
-            $table->dropIndex(['room_id']);
-            $table->dropIndex(['status']);
-            $table->dropIndex(['check_in_date']);
-            $table->dropIndex(['check_out_date']);
-            $table->dropIndex(['status', 'check_in_date']);
-        });
+    /**
+     * Build the index name the same way Laravel does by default.
+     */
+    private function makeIndexName(string $table, array $columns): string
+    {
+        return strtolower($table . '_' . implode('_', $columns) . '_index');
+    }
 
-        // Drop indexes from complaints table
-        Schema::table('complaints', function (Blueprint $table) {
-            $table->dropIndex(['tenant_id']);
-            $table->dropIndex(['room_id']);
-            $table->dropIndex(['status']);
-            $table->dropIndex(['priority']);
-            $table->dropIndex(['status', 'priority']);
-        });
+    /**
+     * Ensure all indexed columns exist on the table.
+     */
+    private function columnsExist(string $table, array $columns): bool
+    {
+        foreach ($columns as $column) {
+            if (! Schema::hasColumn($table, $column)) {
+                return false;
+            }
+        }
 
-        // Drop indexes from ratings table
-        Schema::table('ratings', function (Blueprint $table) {
-            $table->dropIndex(['room_id']);
-            $table->dropIndex(['user_id']);
-            $table->dropIndex(['rating']);
-            $table->dropIndex(['room_id', 'user_id']);
-        });
+        return true;
+    }
 
-        // Drop indexes from room_images table
-        Schema::table('room_images', function (Blueprint $table) {
-            $table->dropIndex(['room_id']);
-        });
+    /**
+     * Check whether an index already exists in the database.
+     */
+    private function indexExists(string $table, string $indexName): bool
+    {
+        $connection = Schema::getConnection();
+        $database = $connection->getDatabaseName();
 
-        // Drop indexes from room_facility table
-        Schema::table('room_facility', function (Blueprint $table) {
-            $table->dropIndex(['room_id']);
-            $table->dropIndex(['facility_id']);
-        });
+        $result = $connection->selectOne(
+            'SELECT COUNT(*) AS aggregate
+             FROM INFORMATION_SCHEMA.STATISTICS
+             WHERE TABLE_SCHEMA = ?
+               AND TABLE_NAME = ?
+               AND INDEX_NAME = ?',
+            [$database, $table, $indexName]
+        );
+
+        return ((int) ($result->aggregate ?? 0)) > 0;
     }
 };

@@ -38,7 +38,7 @@ class BookingController extends Controller
             'guest_email' => 'required|email|max:255',
             'guest_phone' => 'required|string|max:20',
             'check_in_date' => 'required|date|after_or_equal:today',
-            'check_out_date' => 'required|date|after:check_in_date',
+            'duration_months' => 'required|integer|min:1|max:12',
             'notes' => 'nullable|string',
         ]);
 
@@ -51,11 +51,11 @@ class BookingController extends Controller
                 return back()->with('error', 'Maaf, kamar tidak tersedia.');
             }
 
-            // Calculate total price based on duration
+            // Calculate check out date and total price based on duration in months
             $checkIn = Carbon::parse($validated['check_in_date']);
-            $checkOut = Carbon::parse($validated['check_out_date']);
-            $duration = $checkIn->diffInDays($checkOut);
-            $totalPrice = $room->price * $duration;
+            $durationMonths = (int) $validated['duration_months'];
+            $checkOut = $checkIn->copy()->addMonths($durationMonths);
+            $totalPrice = $room->price * $durationMonths;
 
             // Create booking
             $booking = Booking::create([
@@ -63,8 +63,9 @@ class BookingController extends Controller
                 'guest_name' => $validated['guest_name'],
                 'guest_email' => $validated['guest_email'],
                 'guest_phone' => $validated['guest_phone'],
-                'check_in_date' => $validated['check_in_date'],
-                'check_out_date' => $validated['check_out_date'],
+                'check_in_date' => $checkIn->format('Y-m-d'),
+                'check_out_date' => $checkOut->format('Y-m-d'),
+                'duration_months' => $durationMonths,
                 'total_price' => $totalPrice,
                 'status' => 'pending',
                 'payment_status' => 'unpaid',

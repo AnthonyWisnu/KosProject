@@ -17,8 +17,10 @@ class Booking extends Model
         'guest_phone',
         'check_in_date',
         'check_out_date',
+        'duration_months',
         'total_price',
         'status',
+        'payment_status',
         'notes',
     ];
 

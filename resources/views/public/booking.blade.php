@@ -34,15 +34,21 @@
 
                     <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Check In <span class="text-red-500">*</span></label>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Tanggal Masuk <span class="text-red-500">*</span></label>
                             <input type="date" name="check_in_date" value="{{ old('check_in_date') }}" required class="w-full px-4 py-2 border border-gray-300 rounded-lg @error('check_in_date') border-red-500 @enderror">
                             @error('check_in_date')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Check Out <span class="text-red-500">*</span></label>
-                            <input type="date" name="check_out_date" value="{{ old('check_out_date') }}" required class="w-full px-4 py-2 border border-gray-300 rounded-lg @error('check_out_date') border-red-500 @enderror">
-                            @error('check_out_date')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Durasi Kontrak <span class="text-red-500">*</span></label>
+                            <select name="duration_months" required class="w-full px-4 py-2 border border-gray-300 rounded-lg @error('duration_months') border-red-500 @enderror">
+                                <option value="">Pilih Durasi</option>
+                                <option value="1" {{ old('duration_months') == '1' ? 'selected' : '' }}>1 Bulan</option>
+                                <option value="3" {{ old('duration_months') == '3' ? 'selected' : '' }}>3 Bulan</option>
+                                <option value="6" {{ old('duration_months') == '6' ? 'selected' : '' }}>6 Bulan</option>
+                                <option value="12" {{ old('duration_months') == '12' ? 'selected' : '' }}>12 Bulan (1 Tahun)</option>
+                            </select>
+                            @error('duration_months')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
                         </div>
                     </div>
 

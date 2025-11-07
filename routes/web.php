@@ -74,6 +74,9 @@ Route::middleware(['auth', 'role:pemilik'])->prefix('admin')->name('admin.')->gr
     Route::get('reports/occupancy/excel', [\App\Http\Controllers\Admin\ReportController::class, 'exportOccupancyExcel'])->name('reports.occupancy.excel');
     Route::get('reports/occupancy/pdf', [\App\Http\Controllers\Admin\ReportController::class, 'exportOccupancyPdf'])->name('reports.occupancy.pdf');
 
+    // Ratings
+    Route::resource('ratings', \App\Http\Controllers\Admin\RatingController::class)->only(['index', 'show', 'destroy']);
+
     // Routes lain akan ditambahkan di phase berikutnya
     // Route untuk settings, dll
 });
@@ -86,6 +89,9 @@ Route::middleware(['auth', 'role:pemilik'])->prefix('admin')->name('admin.')->gr
 
 Route::middleware(['auth', 'role:penyewa'])->prefix('tenant')->name('tenant.')->group(function () {
     Route::get('/dashboard', [TenantDashboardController::class, 'index'])->name('dashboard');
+
+    // Ratings
+    Route::resource('ratings', \App\Http\Controllers\Tenant\RatingController::class);
 
     // Route lain untuk tenant akan ditambahkan di phase berikutnya
     // Route::get('/payments', [TenantPaymentController::class, 'index'])->name('payments');

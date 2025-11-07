@@ -50,14 +50,14 @@
                     <span class="ml-3">Dashboard</span>
                 </a>
 
-                <a href="{{ route('tenant.payments.index') }}" class="flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('tenant.payments.*') ? 'bg-blue-700 bg-opacity-50' : 'hover:bg-blue-700 hover:bg-opacity-30' }} transition-colors">
+                <a href="#" class="flex items-center px-4 py-3 rounded-lg hover:bg-blue-700 hover:bg-opacity-30 transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
                     </svg>
                     <span class="ml-3">Pembayaran</span>
                 </a>
 
-                <a href="{{ route('tenant.complaints.index') }}" class="flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('tenant.complaints.*') ? 'bg-blue-700 bg-opacity-50' : 'hover:bg-blue-700 hover:bg-opacity-30' }} transition-colors">
+                <a href="#" class="flex items-center px-4 py-3 rounded-lg hover:bg-blue-700 hover:bg-opacity-30 transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/>
                     </svg>
@@ -75,7 +75,7 @@
                     <p class="px-4 text-xs font-semibold text-blue-300 uppercase tracking-wider">Pengaturan</p>
                 </div>
 
-                <a href="{{ route('tenant.profile.edit') }}" class="flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('tenant.profile.*') ? 'bg-blue-700 bg-opacity-50' : 'hover:bg-blue-700 hover:bg-opacity-30' }} transition-colors">
+                <a href="#" class="flex items-center px-4 py-3 rounded-lg hover:bg-blue-700 hover:bg-opacity-30 transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                     </svg>

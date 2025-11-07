@@ -44,14 +44,19 @@ Route::middleware(['auth', 'role:pemilik'])->prefix('admin')->name('admin.')->gr
 
     // Manajemen
     Route::resource('tenants', \App\Http\Controllers\Admin\TenantController::class);
+
     Route::resource('payments', \App\Http\Controllers\Admin\PaymentController::class)->only(['index', 'show']);
     Route::post('payments/{payment}/verify', [\App\Http\Controllers\Admin\PaymentController::class, 'verify'])->name('payments.verify');
     Route::get('payments/export', [\App\Http\Controllers\Admin\PaymentController::class, 'export'])->name('payments.export');
 
+    Route::resource('bookings', \App\Http\Controllers\Admin\BookingController::class)->only(['index', 'show', 'destroy']);
+    Route::post('bookings/{booking}/status', [\App\Http\Controllers\Admin\BookingController::class, 'updateStatus'])->name('bookings.status');
+
+    Route::resource('complaints', \App\Http\Controllers\Admin\ComplaintController::class)->only(['index', 'show', 'destroy']);
+    Route::post('complaints/{complaint}/respond', [\App\Http\Controllers\Admin\ComplaintController::class, 'respond'])->name('complaints.respond');
+
     // Routes lain akan ditambahkan di phase berikutnya
-    // Route::resource('bookings', BookingController::class);
-    // Route::resource('complaints', ComplaintController::class);
-    // dll
+    // Route untuk reports, settings, dll
 });
 
 /*

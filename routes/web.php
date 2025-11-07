@@ -11,10 +11,21 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-// Homepage (public landing page - akan dibuat nanti)
-Route::get('/', function () {
-    return redirect()->route('login');
-})->name('home');
+// Homepage
+Route::get('/', [\App\Http\Controllers\Public\HomeController::class, 'index'])->name('home');
+
+// Rooms
+Route::get('/rooms', [\App\Http\Controllers\Public\RoomController::class, 'index'])->name('public.rooms.index');
+Route::get('/rooms/{room}', [\App\Http\Controllers\Public\RoomController::class, 'show'])->name('public.rooms.show');
+
+// Booking
+Route::get('/booking/{room}', [\App\Http\Controllers\Public\BookingController::class, 'create'])->name('public.booking.create');
+Route::post('/booking', [\App\Http\Controllers\Public\BookingController::class, 'store'])->name('public.booking.store');
+Route::get('/booking-success/{booking}', [\App\Http\Controllers\Public\BookingController::class, 'success'])->name('public.booking.success');
+
+// Contact
+Route::get('/contact', [\App\Http\Controllers\Public\ContactController::class, 'index'])->name('public.contact');
+Route::post('/contact', [\App\Http\Controllers\Public\ContactController::class, 'store'])->name('public.contact.store');
 
 /*
 |--------------------------------------------------------------------------

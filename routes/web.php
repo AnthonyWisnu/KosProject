@@ -55,8 +55,16 @@ Route::middleware(['auth', 'role:pemilik'])->prefix('admin')->name('admin.')->gr
     Route::resource('complaints', \App\Http\Controllers\Admin\ComplaintController::class)->only(['index', 'show', 'destroy']);
     Route::post('complaints/{complaint}/respond', [\App\Http\Controllers\Admin\ComplaintController::class, 'respond'])->name('complaints.respond');
 
+    // Reports
+    Route::get('reports/financial', [\App\Http\Controllers\Admin\ReportController::class, 'financial'])->name('reports.financial');
+    Route::get('reports/occupancy', [\App\Http\Controllers\Admin\ReportController::class, 'occupancy'])->name('reports.occupancy');
+    Route::get('reports/financial/excel', [\App\Http\Controllers\Admin\ReportController::class, 'exportFinancialExcel'])->name('reports.financial.excel');
+    Route::get('reports/financial/pdf', [\App\Http\Controllers\Admin\ReportController::class, 'exportFinancialPdf'])->name('reports.financial.pdf');
+    Route::get('reports/occupancy/excel', [\App\Http\Controllers\Admin\ReportController::class, 'exportOccupancyExcel'])->name('reports.occupancy.excel');
+    Route::get('reports/occupancy/pdf', [\App\Http\Controllers\Admin\ReportController::class, 'exportOccupancyPdf'])->name('reports.occupancy.pdf');
+
     // Routes lain akan ditambahkan di phase berikutnya
-    // Route untuk reports, settings, dll
+    // Route untuk settings, dll
 });
 
 /*

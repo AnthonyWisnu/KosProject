@@ -11,49 +11,58 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Add indexes to rooms table (skip existing: status, room_type)
+        // Add indexes to rooms table
         Schema::table('rooms', function (Blueprint $table) {
+            $table->index('status');
+            $table->index('room_type');
             $table->index('price');
             $table->index(['status', 'room_type']); // Composite index for filtering
         });
 
-        // Add indexes to tenants table (skip existing: status, composite user_id+room_id)
+        // Add indexes to tenants table
         Schema::table('tenants', function (Blueprint $table) {
             $table->index('room_id');
             $table->index('user_id');
+            $table->index('status');
             $table->index(['status', 'check_out_date']); // For active tenant queries
         });
 
-        // Add indexes to payments table (skip existing: status, payment_date)
+        // Add indexes to payments table
         Schema::table('payments', function (Blueprint $table) {
             $table->index('tenant_id');
+            $table->index('payment_status');
+            $table->index('payment_date');
             $table->index('due_date');
             $table->index(['payment_status', 'due_date']); // For overdue queries
         });
 
-        // Add indexes to bookings table (skip existing: status, check_in_date)
+        // Add indexes to bookings table
         Schema::table('bookings', function (Blueprint $table) {
             $table->index('room_id');
+            $table->index('status');
+            $table->index('check_in_date');
             $table->index('check_out_date');
             $table->index(['status', 'check_in_date']); // For pending bookings
         });
 
-        // Add indexes to complaints table (skip existing: status)
+        // Add indexes to complaints table
         Schema::table('complaints', function (Blueprint $table) {
             $table->index('tenant_id');
             $table->index('room_id');
+            $table->index('status');
             $table->index('priority');
             $table->index(['status', 'priority']); // For filtering urgent complaints
         });
 
-        // Add indexes to ratings table (skip existing: rating)
+        // Add indexes to ratings table
         Schema::table('ratings', function (Blueprint $table) {
             $table->index('room_id');
             $table->index('user_id');
+            $table->index('rating');
             $table->index(['room_id', 'user_id']); // For checking duplicates
         });
 
-        // Add indexes to room_images table (skip existing: composite room_id+is_primary)
+        // Add indexes to room_images table
         Schema::table('room_images', function (Blueprint $table) {
             $table->index('room_id');
         });
@@ -72,6 +81,8 @@ return new class extends Migration
     {
         // Drop indexes from rooms table
         Schema::table('rooms', function (Blueprint $table) {
+            $table->dropIndex(['status']);
+            $table->dropIndex(['room_type']);
             $table->dropIndex(['price']);
             $table->dropIndex(['status', 'room_type']);
         });
@@ -80,12 +91,15 @@ return new class extends Migration
         Schema::table('tenants', function (Blueprint $table) {
             $table->dropIndex(['room_id']);
             $table->dropIndex(['user_id']);
+            $table->dropIndex(['status']);
             $table->dropIndex(['status', 'check_out_date']);
         });
 
         // Drop indexes from payments table
         Schema::table('payments', function (Blueprint $table) {
             $table->dropIndex(['tenant_id']);
+            $table->dropIndex(['payment_status']);
+            $table->dropIndex(['payment_date']);
             $table->dropIndex(['due_date']);
             $table->dropIndex(['payment_status', 'due_date']);
         });
@@ -93,6 +107,8 @@ return new class extends Migration
         // Drop indexes from bookings table
         Schema::table('bookings', function (Blueprint $table) {
             $table->dropIndex(['room_id']);
+            $table->dropIndex(['status']);
+            $table->dropIndex(['check_in_date']);
             $table->dropIndex(['check_out_date']);
             $table->dropIndex(['status', 'check_in_date']);
         });
@@ -101,6 +117,7 @@ return new class extends Migration
         Schema::table('complaints', function (Blueprint $table) {
             $table->dropIndex(['tenant_id']);
             $table->dropIndex(['room_id']);
+            $table->dropIndex(['status']);
             $table->dropIndex(['priority']);
             $table->dropIndex(['status', 'priority']);
         });
@@ -109,6 +126,7 @@ return new class extends Migration
         Schema::table('ratings', function (Blueprint $table) {
             $table->dropIndex(['room_id']);
             $table->dropIndex(['user_id']);
+            $table->dropIndex(['rating']);
             $table->dropIndex(['room_id', 'user_id']);
         });
 

@@ -1,66 +1,366 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🏠 Sistem Manajemen Kost
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplikasi manajemen kost berbasis web yang dibangun dengan Laravel 11. Sistem ini menyediakan fitur lengkap untuk mengelola properti kost, penghuni, pembayaran, booking, keluhan, dan rating.
 
-## About Laravel
+![Laravel](https://img.shields.io/badge/Laravel-11.60-red?style=flat&logo=laravel)
+![PHP](https://img.shields.io/badge/PHP-8.2+-blue?style=flat&logo=php)
+![MySQL](https://img.shields.io/badge/MySQL-8.0+-orange?style=flat&logo=mysql)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-CSS-38B2AC?style=flat&logo=tailwind-css)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 📋 Daftar Isi
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- [Fitur Utama](#-fitur-utama)
+- [Tech Stack](#-tech-stack)
+- [Requirements](#-requirements)
+- [Instalasi](#-instalasi)
+- [Konfigurasi](#-konfigurasi)
+- [Menjalankan Aplikasi](#-menjalankan-aplikasi)
+- [User Default](#-user-default)
+- [Struktur Proyek](#-struktur-proyek)
+- [Dokumentasi Tambahan](#-dokumentasi-tambahan)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## ✨ Fitur Utama
 
-## Learning Laravel
+### 🔐 Autentikasi & Otorisasi
+- Login dan registrasi custom (tanpa package)
+- Role-based access control (Admin/Pemilik & Penyewa)
+- Middleware untuk proteksi route
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 👨‍💼 Panel Admin (Pemilik Kost)
+- **Dashboard** dengan statistik lengkap
+- **Manajemen Kamar** (CRUD kamar, upload foto multiple, fasilitas)
+- **Manajemen Fasilitas** (CRUD fasilitas kamar)
+- **Manajemen Penghuni** (tambah penghuni, perpanjang kontrak, checkout)
+- **Manajemen Pembayaran** (record pembayaran, konfirmasi, laporan)
+- **Manajemen Booking** (approve/reject booking dari publik)
+- **Manajemen Keluhan** (terima dan respon keluhan dari penghuni)
+- **Rating & Review** (lihat semua rating, delete jika tidak pantas)
+- **Laporan Keuangan** (filter per periode, export Excel/PDF)
+- **Laporan Okupansi** (statistik hunian, export Excel/PDF)
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 👤 Panel Penyewa (Penghuni)
+- **Dashboard** dengan info kamar dan tagihan
+- **Pembayaran Saya** (lihat history dan tagihan)
+- **Keluhan** (buat keluhan baru, lihat status)
+- **Rating & Review** (beri rating untuk kamar yang dihuni)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 🌐 Halaman Publik
+- **Landing Page** dengan featured rooms
+- **Daftar Kamar** dengan filter (tipe, harga)
+- **Detail Kamar** dengan foto dan fasilitas
+- **Booking Online** (tanpa login)
+- **Form Kontak**
 
-## Laravel Sponsors
+### 🚀 Performance & Optimization
+- Database indexing untuk query cepat
+- Query caching dengan auto-invalidation
+- Eager loading untuk mencegah N+1 queries
+- Image optimization configuration
+- Slow query logging
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 🛠 Tech Stack
 
-### Premium Partners
+- **Framework**: Laravel 11.60
+- **PHP**: 8.2+
+- **Database**: MySQL 8.0+
+- **Frontend**:
+  - Tailwind CSS (via CDN)
+  - Alpine.js (untuk interaktivitas)
+  - Blade Templates
+- **Authentication**: Custom authentication
+- **File Storage**: Local storage (public disk)
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+## 📦 Requirements
 
-## Contributing
+Sebelum instalasi, pastikan sistem Anda memiliki:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- PHP >= 8.2
+- Composer
+- MySQL >= 8.0 atau MariaDB >= 10.3
+- Apache/Nginx
+- Extension PHP yang diperlukan:
+  - OpenSSL
+  - PDO
+  - Mbstring
+  - Tokenizer
+  - XML
+  - Ctype
+  - JSON
+  - BCMath
+  - Fileinfo
+  - GD (untuk image processing)
 
-## Code of Conduct
+## 🚀 Instalasi
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 1. Clone Repository
 
-## Security Vulnerabilities
+```bash
+git clone <repository-url>
+cd KosProject
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 2. Install Dependencies
 
-## License
+```bash
+composer install
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 3. Copy Environment File
+
+```bash
+cp .env.example .env
+```
+
+### 4. Generate Application Key
+
+```bash
+php artisan key:generate
+```
+
+### 5. Buat Database
+
+Buat database MySQL baru:
+
+```sql
+CREATE DATABASE kost_management;
+```
+
+### 6. Konfigurasi Database
+
+Edit file `.env` dan sesuaikan dengan konfigurasi database Anda:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=kost_management
+DB_USERNAME=root
+DB_PASSWORD=your_password
+```
+
+### 7. Jalankan Migrasi dan Seeder
+
+```bash
+php artisan migrate --seed
+```
+
+Perintah ini akan:
+- Membuat semua tabel database
+- Menambahkan data dummy untuk testing
+- Membuat user default (admin dan tenant)
+
+### 8. Buat Storage Link
+
+```bash
+php artisan storage:link
+```
+
+Link ini diperlukan agar foto kamar dapat diakses dari browser.
+
+### 9. Set Permissions (Linux/Mac)
+
+```bash
+chmod -R 775 storage bootstrap/cache
+```
+
+## ⚙️ Konfigurasi
+
+### Cache Configuration
+
+Edit `.env` untuk mengatur cache:
+
+```env
+CACHE_STORE=database
+CACHE_PREFIX=kost_
+CACHE_ENABLED=true
+CACHE_DURATION=3600
+```
+
+### Image Upload Configuration
+
+```env
+MAX_IMAGE_SIZE=5120
+ALLOWED_IMAGE_TYPES=jpg,jpeg,png
+```
+
+### Performance Monitoring (Optional)
+
+```env
+LOG_SLOW_QUERIES=true
+SLOW_QUERY_THRESHOLD=1000
+PERFORMANCE_MONITORING=false
+```
+
+### WhatsApp Integration (Optional)
+
+Jika ingin menggunakan notifikasi WhatsApp via Fonnte:
+
+```env
+WHATSAPP_API_URL=https://api.fonnte.com/send
+WHATSAPP_API_TOKEN=your_fonnte_token
+```
+
+## 🏃 Menjalankan Aplikasi
+
+### Development Server
+
+```bash
+php artisan serve
+```
+
+Aplikasi akan berjalan di: `http://localhost:8000`
+
+### Production Deployment
+
+Untuk deployment production, jalankan optimisasi:
+
+```bash
+# Install dependencies (production only)
+composer install --optimize-autoloader --no-dev
+
+# Cache configuration
+php artisan config:cache
+
+# Cache routes
+php artisan route:cache
+
+# Cache views
+php artisan view:cache
+
+# Optimize everything
+php artisan optimize
+```
+
+**PENTING**: Jangan lupa set `APP_ENV=production` dan `APP_DEBUG=false` di `.env`
+
+## 👥 User Default
+
+Setelah menjalankan seeder, Anda dapat login dengan akun berikut:
+
+### Admin/Pemilik Kost
+
+```
+Email: admin@kost.com
+Password: password
+```
+
+**Akses**: Dashboard admin dengan fitur lengkap
+
+### Penyewa/Tenant
+
+```
+Email: tenant@kost.com
+Password: password
+```
+
+**Akses**: Dashboard tenant untuk melihat info kamar, pembayaran, dan keluhan
+
+## 📁 Struktur Proyek
+
+```
+KosProject/
+├── app/
+│   ├── Http/
+│   │   ├── Controllers/
+│   │   │   ├── Admin/          # Controllers untuk admin
+│   │   │   ├── Tenant/         # Controllers untuk tenant
+│   │   │   └── Public/         # Controllers untuk halaman publik
+│   │   └── Middleware/         # Custom middleware
+│   ├── Models/                  # Eloquent models
+│   ├── Observers/               # Model observers (cache invalidation)
+│   └── Services/                # Business logic services
+├── database/
+│   ├── migrations/              # Database migrations
+│   └── seeders/                 # Database seeders
+├── resources/
+│   └── views/
+│       ├── admin/               # Views untuk admin
+│       ├── tenant/              # Views untuk tenant
+│       ├── public/              # Views untuk publik
+│       └── layouts/             # Layout templates
+├── routes/
+│   └── web.php                  # Route definitions
+├── public/
+│   └── storage/                 # Symlink ke storage
+└── storage/
+    └── app/public/              # File uploads
+```
+
+## 📚 Dokumentasi Tambahan
+
+- **[OPTIMIZATION.md](OPTIMIZATION.md)** - Panduan lengkap optimasi performa
+- **Routes** - Lihat semua route dengan: `php artisan route:list`
+
+## 🗃️ Database Schema
+
+### Tabel Utama
+
+- `users` - Data user (admin & tenant)
+- `rooms` - Data kamar kost
+- `facilities` - Fasilitas yang tersedia
+- `room_facility` - Pivot table kamar-fasilitas
+- `room_images` - Foto-foto kamar
+- `tenants` - Data penghuni (kontrak)
+- `payments` - Pembayaran penghuni
+- `bookings` - Booking dari publik
+- `complaints` - Keluhan dari penghuni
+- `ratings` - Rating & review kamar
+
+## 🔧 Troubleshooting
+
+### Error: Storage link not found
+
+```bash
+php artisan storage:link
+```
+
+### Error: Permission denied
+
+```bash
+chmod -R 775 storage bootstrap/cache
+```
+
+### Error: Database connection refused
+
+Pastikan MySQL berjalan dan kredensial di `.env` sudah benar.
+
+### Cache tidak bekerja
+
+Hapus cache dan restart:
+
+```bash
+php artisan cache:clear
+php artisan config:clear
+php artisan route:clear
+php artisan view:clear
+```
+
+### Slow queries
+
+Enable slow query logging di `.env`:
+
+```env
+LOG_SLOW_QUERIES=true
+SLOW_QUERY_THRESHOLD=1000
+```
+
+Lalu cek di `storage/logs/laravel.log`
+
+## 🤝 Contributing
+
+Kontribusi selalu diterima! Silakan buat pull request atau issue untuk:
+- Bug reports
+- Feature requests
+- Documentation improvements
+
+## 📝 License
+
+Aplikasi ini adalah open-source software berlisensi [MIT license](https://opensource.org/licenses/MIT).
+
+## 👨‍💻 Author
+
+Dikembangkan dengan ❤️ menggunakan Laravel
+
+## 📞 Support
+
+Jika ada pertanyaan atau masalah, silakan buat issue di repository ini.

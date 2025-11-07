@@ -11,10 +11,21 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-// Homepage (public landing page - akan dibuat nanti)
-Route::get('/', function () {
-    return redirect()->route('login');
-})->name('home');
+// Homepage
+Route::get('/', [\App\Http\Controllers\Public\HomeController::class, 'index'])->name('home');
+
+// Rooms
+Route::get('/rooms', [\App\Http\Controllers\Public\RoomController::class, 'index'])->name('public.rooms.index');
+Route::get('/rooms/{room}', [\App\Http\Controllers\Public\RoomController::class, 'show'])->name('public.rooms.show');
+
+// Booking
+Route::get('/booking/{room}', [\App\Http\Controllers\Public\BookingController::class, 'create'])->name('public.booking.create');
+Route::post('/booking', [\App\Http\Controllers\Public\BookingController::class, 'store'])->name('public.booking.store');
+Route::get('/booking-success/{booking}', [\App\Http\Controllers\Public\BookingController::class, 'success'])->name('public.booking.success');
+
+// Contact
+Route::get('/contact', [\App\Http\Controllers\Public\ContactController::class, 'index'])->name('public.contact');
+Route::post('/contact', [\App\Http\Controllers\Public\ContactController::class, 'store'])->name('public.contact.store');
 
 /*
 |--------------------------------------------------------------------------
@@ -38,10 +49,36 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middl
 Route::middleware(['auth', 'role:pemilik'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
-    // Route lain untuk admin akan ditambahkan di phase berikutnya
-    // Route::resource('rooms', RoomController::class);
-    // Route::resource('facilities', FacilityController::class);
-    // dll
+    // Data Master
+    Route::resource('rooms', \App\Http\Controllers\Admin\RoomController::class);
+    Route::resource('facilities', \App\Http\Controllers\Admin\FacilityController::class);
+
+    // Manajemen
+    Route::resource('tenants', \App\Http\Controllers\Admin\TenantController::class);
+
+    Route::resource('payments', \App\Http\Controllers\Admin\PaymentController::class)->only(['index', 'show']);
+    Route::post('payments/{payment}/verify', [\App\Http\Controllers\Admin\PaymentController::class, 'verify'])->name('payments.verify');
+    Route::get('payments/export', [\App\Http\Controllers\Admin\PaymentController::class, 'export'])->name('payments.export');
+
+    Route::resource('bookings', \App\Http\Controllers\Admin\BookingController::class)->only(['index', 'show', 'destroy']);
+    Route::post('bookings/{booking}/status', [\App\Http\Controllers\Admin\BookingController::class, 'updateStatus'])->name('bookings.status');
+
+    Route::resource('complaints', \App\Http\Controllers\Admin\ComplaintController::class)->only(['index', 'show', 'destroy']);
+    Route::post('complaints/{complaint}/respond', [\App\Http\Controllers\Admin\ComplaintController::class, 'respond'])->name('complaints.respond');
+
+    // Reports
+    Route::get('reports/financial', [\App\Http\Controllers\Admin\ReportController::class, 'financial'])->name('reports.financial');
+    Route::get('reports/occupancy', [\App\Http\Controllers\Admin\ReportController::class, 'occupancy'])->name('reports.occupancy');
+    Route::get('reports/financial/excel', [\App\Http\Controllers\Admin\ReportController::class, 'exportFinancialExcel'])->name('reports.financial.excel');
+    Route::get('reports/financial/pdf', [\App\Http\Controllers\Admin\ReportController::class, 'exportFinancialPdf'])->name('reports.financial.pdf');
+    Route::get('reports/occupancy/excel', [\App\Http\Controllers\Admin\ReportController::class, 'exportOccupancyExcel'])->name('reports.occupancy.excel');
+    Route::get('reports/occupancy/pdf', [\App\Http\Controllers\Admin\ReportController::class, 'exportOccupancyPdf'])->name('reports.occupancy.pdf');
+
+    // Ratings
+    Route::resource('ratings', \App\Http\Controllers\Admin\RatingController::class)->only(['index', 'show', 'destroy']);
+
+    // Routes lain akan ditambahkan di phase berikutnya
+    // Route untuk settings, dll
 });
 
 /*
@@ -52,6 +89,9 @@ Route::middleware(['auth', 'role:pemilik'])->prefix('admin')->name('admin.')->gr
 
 Route::middleware(['auth', 'role:penyewa'])->prefix('tenant')->name('tenant.')->group(function () {
     Route::get('/dashboard', [TenantDashboardController::class, 'index'])->name('dashboard');
+
+    // Ratings
+    Route::resource('ratings', \App\Http\Controllers\Tenant\RatingController::class);
 
     // Route lain untuk tenant akan ditambahkan di phase berikutnya
     // Route::get('/payments', [TenantPaymentController::class, 'index'])->name('payments');

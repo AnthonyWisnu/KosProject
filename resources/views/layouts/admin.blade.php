@@ -55,14 +55,14 @@
                     <p class="px-4 text-xs font-semibold text-green-300 uppercase tracking-wider">Data Master</p>
                 </div>
 
-                <a href="#" class="flex items-center px-4 py-3 rounded-lg hover:bg-green-700 hover:bg-opacity-30 transition-colors">
+                <a href="{{ route('admin.rooms.index') }}" class="flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('admin.rooms.*') ? 'bg-green-700 bg-opacity-50' : 'hover:bg-green-700 hover:bg-opacity-30' }} transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"/>
                     </svg>
                     <span class="ml-3">Kamar</span>
                 </a>
 
-                <a href="#" class="flex items-center px-4 py-3 rounded-lg hover:bg-green-700 hover:bg-opacity-30 transition-colors">
+                <a href="{{ route('admin.facilities.index') }}" class="flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('admin.facilities.*') ? 'bg-green-700 bg-opacity-50' : 'hover:bg-green-700 hover:bg-opacity-30' }} transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
                     </svg>
@@ -74,32 +74,39 @@
                     <p class="px-4 text-xs font-semibold text-green-300 uppercase tracking-wider">Manajemen</p>
                 </div>
 
-                <a href="#" class="flex items-center px-4 py-3 rounded-lg hover:bg-green-700 hover:bg-opacity-30 transition-colors">
+                <a href="{{ route('admin.tenants.index') }}" class="flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('admin.tenants.*') ? 'bg-green-700 bg-opacity-50' : 'hover:bg-green-700 hover:bg-opacity-30' }} transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
                     </svg>
                     <span class="ml-3">Penghuni</span>
                 </a>
 
-                <a href="#" class="flex items-center px-4 py-3 rounded-lg hover:bg-green-700 hover:bg-opacity-30 transition-colors">
+                <a href="{{ route('admin.payments.index') }}" class="flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('admin.payments.*') ? 'bg-green-700 bg-opacity-50' : 'hover:bg-green-700 hover:bg-opacity-30' }} transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
                     </svg>
                     <span class="ml-3">Pembayaran</span>
                 </a>
 
-                <a href="#" class="flex items-center px-4 py-3 rounded-lg hover:bg-green-700 hover:bg-opacity-30 transition-colors">
+                <a href="{{ route('admin.bookings.index') }}" class="flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('admin.bookings.*') ? 'bg-green-700 bg-opacity-50' : 'hover:bg-green-700 hover:bg-opacity-30' }} transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                     </svg>
                     <span class="ml-3">Reservasi</span>
                 </a>
 
-                <a href="#" class="flex items-center px-4 py-3 rounded-lg hover:bg-green-700 hover:bg-opacity-30 transition-colors">
+                <a href="{{ route('admin.complaints.index') }}" class="flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('admin.complaints.*') ? 'bg-green-700 bg-opacity-50' : 'hover:bg-green-700 hover:bg-opacity-30' }} transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/>
                     </svg>
                     <span class="ml-3">Keluhan</span>
+                </a>
+
+                <a href="{{ route('admin.ratings.index') }}" class="flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('admin.ratings.*') ? 'bg-green-700 bg-opacity-50' : 'hover:bg-green-700 hover:bg-opacity-30' }} transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+                    </svg>
+                    <span class="ml-3">Rating & Review</span>
                 </a>
 
                 <!-- Reports Section -->
@@ -107,11 +114,18 @@
                     <p class="px-4 text-xs font-semibold text-green-300 uppercase tracking-wider">Laporan</p>
                 </div>
 
-                <a href="#" class="flex items-center px-4 py-3 rounded-lg hover:bg-green-700 hover:bg-opacity-30 transition-colors">
+                <a href="{{ route('admin.reports.financial') }}" class="flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('admin.reports.financial') ? 'bg-green-700 bg-opacity-50' : 'hover:bg-green-700 hover:bg-opacity-30' }} transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
                     </svg>
                     <span class="ml-3">Laporan Keuangan</span>
+                </a>
+
+                <a href="{{ route('admin.reports.occupancy') }}" class="flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('admin.reports.occupancy') ? 'bg-green-700 bg-opacity-50' : 'hover:bg-green-700 hover:bg-opacity-30' }} transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                    </svg>
+                    <span class="ml-3">Laporan Okupansi</span>
                 </a>
 
                 <!-- Settings Section -->

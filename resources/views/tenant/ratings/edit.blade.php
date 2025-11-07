@@ -1,20 +1,20 @@
 @extends('layouts.tenant')
 
-@section('title', 'Beri Rating')
-@section('page-title', 'Beri Rating & Review')
+@section('title', 'Edit Rating')
+@section('page-title', 'Edit Rating & Review')
 
 @section('content')
 <div class="max-w-2xl">
     <div class="bg-white rounded-lg shadow p-6">
-        <h3 class="text-lg font-semibold text-gray-800 mb-6">Rating untuk Kamar {{ $room->room_number }}</h3>
+        <h3 class="text-lg font-semibold text-gray-800 mb-6">Edit Rating untuk Kamar {{ $room->room_number }}</h3>
 
-        <form action="{{ route('tenant.ratings.store') }}" method="POST">
+        <form action="{{ route('tenant.ratings.update', $rating) }}" method="POST">
             @csrf
-            <input type="hidden" name="room_id" value="{{ $room->id }}">
+            @method('PUT')
 
             <div class="mb-6">
                 <label class="block text-sm font-medium text-gray-700 mb-2">Rating <span class="text-red-500">*</span></label>
-                <div class="flex space-x-2" x-data="{ rating: {{ old('rating', 0) }} }">
+                <div class="flex space-x-2" x-data="{ rating: {{ old('rating', $rating->rating) }} }">
                     @for($i = 1; $i <= 5; $i++)
                     <button type="button" @click="rating = {{ $i }}" class="focus:outline-none">
                         <svg :class="rating >= {{ $i }} ? 'text-yellow-400' : 'text-gray-300'" class="w-10 h-10" fill="currentColor" viewBox="0 0 20 20">
@@ -29,13 +29,13 @@
 
             <div class="mb-6">
                 <label class="block text-sm font-medium text-gray-700 mb-2">Review (Opsional)</label>
-                <textarea name="review" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg">{{ old('review') }}</textarea>
+                <textarea name="review" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg">{{ old('review', $rating->review) }}</textarea>
                 @error('review')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
             </div>
 
             <div class="flex space-x-4">
                 <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition">
-                    Kirim Rating
+                    Update Rating
                 </button>
                 <a href="{{ route('tenant.ratings.index') }}" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-6 py-2 rounded-lg transition">
                     Batal
